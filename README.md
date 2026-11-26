@@ -1,32 +1,67 @@
-# 启智 VPN Skill
+# Qizhi-Atrust-skill · 启智 VPN
 
 让 Codex 检查、部署并启动 Docker 隔离的启智 aTrust VPN。启智业务流量进入容器，其他网站继续使用现有 Clash Verge 或其他客户端的分流规则。
 
-## 两种使用方式
+## 在新电脑上首次使用
 
-安装技能后，在 agent 对话中输入：
+在新电脑的本地 Codex 中操作，让 agent 能使用本机终端和浏览器。以下两段指令分两次发送：先安装技能，再开始部署。
+
+### 1. 从 GitHub 安装技能
 
 ```text
-使用 $qizhi-vpn 检查并部署启智 VPN 分流。
+使用 $skill-installer 安装以下 GitHub 技能：
+
+仓库：zhangchenxi1224/Qizhi-Atrust-skill
+技能目录：qizhi-vpn
+版本：v1.0.1
+
+请确认本机实际使用的技能目录，并检查安装成功。
 ```
 
-技能会检查已有代理客户端、Docker、容器和登录状态，按需安装配置；多个客户端用途不明确时会询问。日常使用输入：
+仓库是公开的，下载不需要提供本项目的 GitHub 凭据。安装完成后，在下一条消息中调用技能；如果没有出现，可重启 Codex 后再试。安装机制见 [官方技能说明](https://learn.chatgpt.com/docs/build-skills#install-curated-skills-for-local-use)。
+
+仓库名是 `Qizhi-Atrust-skill`，其中的技能目录和调用名仍是 `qizhi-vpn`。
+
+### 2. 让 agent 完成首次配置和登录
+
+```text
+使用 $qizhi-vpn 帮我完成这台电脑的首次配置和登录。
+
+请直接执行：
+1. 检查系统架构、现有代理客户端、Docker 和 aTrust 部署。
+2. 缺少依赖时，从官方来源安装并配置，部署 Docker 隔离的 aTrust。
+3. 启智业务流量走容器；其他网站保持本机现有代理的规则和节点。
+4. 多个代理客户端用途不明确时询问我。
+5. 登录时向我索取启智账号密码，我授权仅在这台电脑加密保存。
+6. 完成正常登录；需要验证码、系统权限或必要确认时再让我参与。
+7. 验证启智实际走 aTrust，至少两个外网站点仍走原有路线，并保存配置供以后启动使用。
+
+请完成部署和验证，不要只提供操作建议。
+```
+
+首次配置需要你自己的启智账号及有效访问权限，账号密码通过 agent 提供的输入方式或本机交互终端输入，不要写入本仓库文件。需要用户完成的系统授权、协议确认、短信验证或扫码会按实际流程处理。
+
+换电脑时还需注意：
+
+- **凭据不会随技能迁移。** 新电脑需要重新提供一次账号密码；旧电脑的 DPAPI 文件不能直接作为跨电脑登录凭据。
+- **原来的 Clash 订阅也不会随技能迁移。** 新电脑若尚未配置外网节点，需要导入自己的订阅；技能保留的是目标电脑已有的配置。
+- **Mac 需要现场适配验证。** Windows amd64 已实测；macOS，尤其 Apple Silicon，需要核对镜像架构和客户端兼容性。
+
+### 3. 以后日常启动
 
 ```text
 使用 $qizhi-vpn 帮我启动启智 VPN。
 ```
 
-技能会复用现有部署与有效会话，必要时完成正常登录，最后检查启智和外网两条路径。首次使用需要你自己的启智账号及有效访问权限。
+技能会复用已有部署和有效会话，必要时重新登录，并检查启智和外网两条路径；会话有效时无需重复输入密码。
 
-## 安装
+## 手动下载安装
 
-从 [Releases](https://github.com/zhangchenxi1224/qizhi-vpn-skill/releases) 下载 `qizhi-vpn-skill.zip`，解压后将 `qizhi-vpn` 文件夹放入 Codex 技能目录：
+也可以从 [Releases](https://github.com/zhangchenxi1224/Qizhi-Atrust-skill/releases) 下载 `qizhi-vpn-skill.zip`，或克隆本仓库，取出其中的 `qizhi-vpn` 文件夹。
 
-- Windows：`%USERPROFILE%\.codex\skills\qizhi-vpn`
-- macOS / Linux：`~/.codex/skills/qizhi-vpn`
-- 设置了 `CODEX_HOME` 时使用其下的 `skills` 目录。
+让 agent 先确认目标电脑实际扫描的用户级技能目录，再将文件夹放入其中。当前官方文档列出 `~/.agents/skills`；本项目最初验证环境的安装器使用 `$CODEX_HOME/skills`，默认 `~/.codex/skills`。以目标机版本和实际配置为准，避免重复安装两份。
 
-确保最终路径是 `skills/qizhi-vpn/SKILL.md`，避免多嵌套一层目录。也可以克隆本仓库后复制 `qizhi-vpn` 文件夹。已有同名技能时先备份再更新；运行时状态和凭据保存在技能目录之外。
+最终目录层级应为 `skills/qizhi-vpn/SKILL.md`，避免多嵌套一层。已有同名技能时先备份再更新；运行时状态和凭据保存在技能目录之外。
 
 ## 分流方式
 

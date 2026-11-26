@@ -12,6 +12,7 @@ description: 部署、启动和排查启智（SII）VPN。用户说“启动启�
 - “启动 / 登录 / 打开启智 VPN”：先执行下面的日常启动流程，优先复用已有安装与会话。
 - “安装 / 配置 / 换电脑 / 修复未部署环境”：读取 [setup.md](references/setup.md)，完成检查、部署、登录、持久化分流和验证。
 - 分流适配读取 [clients.md](references/clients.md)；认证读取 [login.md](references/login.md)；异常读取 [troubleshooting.md](references/troubleshooting.md)。只读取当前需要的参考文件。
+- “启智节点红色 / 测速超时，但网站能访问”：读取 [latency.md](references/latency.md)，分别检查内核测速和界面保存的组测速地址，不能仅凭内核测试成功就宣称界面已修复。
 
 命令中的 `<skill>` 指本 SKILL.md 所在目录。Windows 使用可用的 Python 3，macOS 通常使用 `python3`。缺失解释器时从可信的系统包管理器或官方安装源安装。脚本使用标准库；读取 Mihomo YAML 的验证功能需要 PyYAML，优先装到本技能状态目录下的虚拟环境，记录该解释器路径供后续使用。
 

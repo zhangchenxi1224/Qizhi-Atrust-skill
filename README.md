@@ -13,7 +13,7 @@
 
 仓库：zhangchenxi1224/Qizhi-Atrust-skill
 技能目录：qizhi-vpn
-版本：v1.0.1
+版本：v1.1.0
 
 请确认本机实际使用的技能目录，并检查安装成功。
 ```
@@ -48,6 +48,16 @@
 ```
 
 技能会复用已有部署和有效会话，必要时重新登录，并检查启智和外网两条路径；会话有效时无需重复输入密码。
+
+### 启智可访问，但 Clash Verge 节点显示超时
+
+```text
+使用 $qizhi-vpn 修复启智节点的测速误报。
+请同时检查内核和 Clash Verge 界面实际使用的组测速地址，
+将启智专用组设置为 https://qz.sii.edu.cn/，保留其他分流配置。
+```
+
+启智节点只承接启智网络，使用 Cloudflare 等外网地址测速可能误报。新生成的配置会为启智组设置专用测速地址；已有环境会继续检查界面保存的组设置，避免只改内核配置。详细流程见 [测速修复](qizhi-vpn/references/latency.md)。
 
 ## 手动下载安装
 
@@ -84,7 +94,7 @@ flowchart LR
 ## 支持范围与验证
 
 - 已实测 Windows amd64：Docker 隔离、登录恢复、重复启动不重启健康容器、Clash Verge / Mihomo 分流、启智入口与三个外网站点的实际连接路径。
-- macOS / Apple Silicon：包含检测、钥匙串和适配流程，尚未在 Mac 实机验证；需核对容器镜像架构和客户端能力。
+- macOS / Apple Silicon：提供系统与架构检测、系统钥匙串存储，以及容器镜像和代理客户端适配流程。
 - 其他代理客户端：由 agent 按其当前官方语法适配，不能原样套用 Mihomo 配置，也不保证任意 VPN 客户端均支持分流。
 
 本仓库不分发 aTrust 安装包或镜像。Docker 模板依赖经过检查、固定 digest 且架构匹配的外部镜像；当前模板基于 Debian bookworm，换底座前需要检查兼容性。aTrust 客户端及服务的使用遵循其自身条款。
@@ -93,6 +103,7 @@ flowchart LR
 
 - [技能入口](qizhi-vpn/SKILL.md)：触发场景和日常流程。
 - [安装部署](qizhi-vpn/references/setup.md)、[客户端分流](qizhi-vpn/references/clients.md)、[登录](qizhi-vpn/references/login.md)、[排障](qizhi-vpn/references/troubleshooting.md)。
+- [启智组测速修复](qizhi-vpn/references/latency.md)：处理内核测速正常、界面仍显示超时的情况。
 - `qizhi-vpn/scripts/`：检测、登记、启动、验证、加密凭据和模板生成工具。
 - `qizhi-vpn/assets/`：Docker 构建模板与 Mihomo overlay。
 

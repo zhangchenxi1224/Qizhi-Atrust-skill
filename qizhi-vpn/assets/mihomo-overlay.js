@@ -8,11 +8,16 @@ function main(config) {
   }
   config.proxies = (config.proxies || []).filter(p => p.name !== QIZHI.node).concat([desired]);
   config['proxy-groups'] = config['proxy-groups'] || [];
-  const group = config['proxy-groups'].find(g => g.name === QIZHI.group);
+  let group = config['proxy-groups'].find(g => g.name === QIZHI.group);
   if (group && !(group.type === 'select' && JSON.stringify(group.proxies) === JSON.stringify([QIZHI.node]))) {
     throw new Error('Group name conflict: choose a unique Qizhi group name.');
   }
-  if (!group) config['proxy-groups'].push({name: QIZHI.group, type: 'select', proxies: [QIZHI.node]});
+  if (!group) {
+    group = {name: QIZHI.group, type: 'select', proxies: [QIZHI.node]};
+    config['proxy-groups'].push(group);
+  }
+  group.url = 'https://qz.sii.edu.cn/';
+  group['expected-status'] = '200/302';
   if (QIZHI.externalFallback) {
     const names = config.proxies.concat(config['proxy-groups']).map(p => p.name).concat(['DIRECT','REJECT']);
     if (!names.includes(QIZHI.externalFallback)) throw new Error('External fallback does not exist.');

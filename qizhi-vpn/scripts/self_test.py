@@ -74,6 +74,8 @@ function apply(settings, value) {
 const next = apply(input.options, baseline);
 assert.deepStrictEqual(next.proxies[0],baseline.proxies[0]);
 assert.deepStrictEqual(next['proxy-groups'][0],baseline['proxy-groups'][0]);
+assert.equal(next['proxy-groups'].at(-1).url,'https://qz.sii.edu.cn/');
+assert.equal(next['proxy-groups'].at(-1)['expected-status'],'200/302');
 assert.deepStrictEqual(next.rules.slice(-baseline.rules.length),baseline.rules);
 assert.equal(next.rules.filter(x=>x.startsWith('MATCH,')).length,1);
 assert.deepStrictEqual(apply(input.options,next),next);
@@ -86,6 +88,8 @@ assert.throws(()=>apply({...input.options,node:'Outside'},baseline));
 assert.throws(()=>apply({...input.options,group:'Choice'},baseline));
 const bound = structuredClone(next); bound.proxies.at(-1)['interface-name']='WLAN';
 assert(!('interface-name' in apply(input.options,bound).proxies.at(-1)));
+const stale = structuredClone(next); stale['proxy-groups'].at(-1).url='https://cp.cloudflare.com/generate_204';
+assert.deepStrictEqual(apply(input.options,stale),next);
 console.log('routing preservation, idempotency, Global handling, collision checks: passed');
 '''
         script = workspace / 'routing-test.js'

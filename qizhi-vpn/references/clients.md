@@ -20,6 +20,8 @@ python <skill>/scripts/prepare.py overlay --output <新候选.js> --vpn-ip <真�
 
 候选创建 HTTP 节点指向 `127.0.0.1:18080`（非默认端口加 `--http-port`），组仅包含这个节点，不绑定 WLAN / Ethernet 等物理网卡。节点或组重名且含义不匹配时生成函数会拒绝，选择唯一名称，不覆盖用户节点。
 
+启智组的内核测速地址设置为 `https://qz.sii.edu.cn/`，预期状态为 `200/302`。其他组与全局测速地址不变。Clash Verge 界面还可能有独立保存的组测速地址；首次部署后检查这一层，遇到误报按 [latency.md](latency.md) 修复。
+
 前置规则为：loopback 直连，VPN / CAS 认证域及其真实 IP 直连，启智域 UDP 拒绝，`DOMAIN-SUFFIX,sii.edu.cn` 走启智组。随后保留用户原规则的顺序、节点、组及其选择；重复应用不会增加重复规则。为认证入口设置真实 hosts 和 fake-ip 排除，避免建立隧道时循环。
 
 默认适用于已经使用 Rule 模式的用户。不要自动给这类用户加一个会截断原规则的 `MATCH`。

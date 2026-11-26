@@ -1,0 +1,6 @@
+*
+!Dockerfile
+!chromium-launcher
+!xdg-open
+!start-local.sh
+!vpn-guard.sh

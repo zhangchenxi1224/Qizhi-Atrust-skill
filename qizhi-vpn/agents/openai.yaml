@@ -1,0 +1,4 @@
+interface:
+  display_name: "启智 VPN"
+  short_description: "检测部署 Docker 隔离 aTrust，保留原有代理分流，自动启动与登录"
+  default_prompt: "使用 $qizhi-vpn 帮我启动启智 VPN，检查登录状态并验证启智和外网分流。"

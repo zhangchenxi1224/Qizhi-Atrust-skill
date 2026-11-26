@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+credentials.dpapi
+state.json
+last-verification.json
+skill-validation.json
+backup*/
+*-private.*
+*.log
+*.zip
+dist/
+.DS_Store
+Thumbs.db
